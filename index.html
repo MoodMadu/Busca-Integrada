@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telefonia N2 - Busca Integrada</title>
+
+    <link rel="icon" type="image/png" href="/favicon-brisanet.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Link para o arquivo CSS externo -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-zinc-100 text-zinc-900 flex flex-col min-h-screen">
+
+    <!-- Cabeçalho de Navegação -->
+    <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-lg border-b border-zinc-200">
+        <div class="max-w-5xl mx-auto px-4">
+            <nav class="flex items-center justify-center h-16">
+                <ul class="flex items-center space-x-2 md:space-x-4" id="nav-menu">
+                    <li><a href="#" data-view="main" class="menu-item text-sm md:text-base px-3 py-2 rounded-lg transition-colors duration-200">Busca</a></li>
+                    <li><a href="#" data-view="settings" class="menu-item text-sm md:text-base px-3 py-2 rounded-lg transition-colors duration-200">Ajustes</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <div class="flex-grow">
+        <!-- TELA DE BUSCA UNIFICADA -->
+        <main id="main-view" class="hidden-view max-w-3xl mx-auto p-4 sm:p-6 md:p-12">
+            <div class="text-center">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-zinc-900">Busca <span class="animated-gradient-text">Integrada</span></h1>
+                <p class="mt-4 text-base sm:text-lg text-zinc-600">Busque por IMEI, Modelo, Endereço ou Coordenadas.</p>
+            </div>
+            <div class="mt-10" id="search-wrapper">
+                 <div class="flex items-center space-x-2">
+                    <div class="relative flex-grow">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none z-10"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></div>
+                        <input 
+                            id="unified-search-input" 
+                            type="text" 
+                            placeholder="IMEI, Modelo, Endereço ou Coordenadas..." 
+                            autocomplete="off" 
+                            class="relative w-full p-4 pl-12 text-base bg-zinc-200/50 border border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200"
+                            aria-label="Campo de busca unificado"
+                            role="searchbox"
+                        >
+                    </div>
+                    <button id="search-button" class="flex-shrink-0 px-4 h-14 bg-blue-600 text-white rounded-xl hover:bg-blue-700 active:scale-95 transition-all shadow-sm" aria-label="Pesquisar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="relative">
+                     <div id="autocomplete-container" class="absolute top-full mt-2 w-full bg-white border border-zinc-200 rounded-xl shadow-lg overflow-hidden z-20 transition-all duration-200 ease-out opacity-0 scale-95 pointer-events-none"></div>
+                </div>
+                <p class="text-xs text-zinc-500 text-center mt-3">Este serviço pode apresentar imprecisões. Recomendamos conferir as informações apresentadas.</p>
+            </div>
+            <div id="results-container" class="mt-8 space-y-6"></div>
+        </main>
+        
+        
+        <!-- TELA DE AJUSTES -->
+        <section id="settings-view" class="hidden-view max-w-3xl mx-auto p-4 sm:p-6 md:p-12">
+           <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-center">Ajustes</h1>
+            <div class="mt-12 space-y-10">
+                <div class="space-y-6">
+                     <h2 class="text-2xl font-bold tracking-tight">Busca</h2>
+                    <!-- Visibilidade do Botão de Busca -->
+                    <div class="flex items-center justify-between"><span class="flex-grow flex flex-col"><label for="setting-show-search-button" class="text-base font-medium text-zinc-900">Mostrar botão de pesquisa</label><span class="text-sm text-zinc-600">Exibe ou oculta o botão ao lado da barra de busca.</span></span><div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in"><input type="checkbox" name="setting-show-search-button" id="setting-show-search-button" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/><label for="setting-show-search-button" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label></div></div>
+                    <!-- Correção de IMEI -->
+                    <div class="flex items-center justify-between"><span class="flex-grow flex flex-col"><label for="setting-suggest-imei" class="text-base font-medium text-zinc-900">Sugerir correção de IMEI</label><span class="text-sm text-zinc-600">Calcula e exibe um dígito verificador para IMEIs.</span></span><div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in"><input type="checkbox" name="setting-suggest-imei" id="setting-suggest-imei" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/><label for="setting-suggest-imei" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label></div></div>
+                    <!-- Fontes de Busca -->
+                    <div>
+                        <label class="text-base font-medium text-zinc-900">Fontes de busca externa</label>
+                         <p class="text-sm text-zinc-600">Ative os sites usados para buscar fichas técnicas quando nada for encontrado localmente.</p>
+                        <fieldset class="mt-4 space-y-2" id="search-sources-fieldset"></fieldset>
+                    </div>
+                </div>
+                <div class="border-t border-zinc-200"></div>
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-bold tracking-tight">Histórico</h2>
+                    <div class="flex items-center justify-between"><span class="flex-grow flex flex-col"><label for="setting-save-history" class="text-base font-medium text-zinc-900">Salvar histórico de buscas</label><span class="text-sm text-zinc-600">Desative para impedir que novas buscas sejam salvas.</span></span><div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in"><input type="checkbox" name="setting-save-history" id="setting-save-history" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/><label for="setting-save-history" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label></div></div>
+                    <div class="flex items-center justify-between"><span class="flex-grow flex flex-col"><label for="setting-show-past" class="text-base font-medium text-zinc-900">Mostrar buscas anteriores nas sugestões</label><span class="text-sm text-zinc-600">Exibe seu histórico ao digitar um modelo de aparelho.</span></span><div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in"><input type="checkbox" name="setting-show-past" id="setting-show-past" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/><label for="setting-show-past" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label></div></div>
+                    <div>
+                        <label class="text-base font-medium text-zinc-900">Formato de Data e Hora</label>
+                        <fieldset class="mt-2">
+                            <div class="flex items-center space-x-6">
+                                <div class="flex items-center"><input id="date-relative" name="date-format" type="radio" value="relative" class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"><label for="date-relative" class="ml-2 block text-sm font-medium text-zinc-700">Relativo (ex: há 5 minutos)</label></div>
+                                <div class="flex items-center"><input id="date-absolute" name="date-format" type="radio" value="absolute" class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"><label for="date-absolute" class="ml-2 block text-sm font-medium text-zinc-700">Absoluto (ex: 15/06/2025, 15:51)</label></div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="flex items-center justify-between"><span class="flex-grow flex flex-col"><label for="setting-secure-delete" class="text-base font-medium text-zinc-900">Exigir confirmação para limpar o histórico</label><span class="text-sm text-zinc-600">Ative para evitar a exclusão acidental de todo o histórico.</span></span><div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in"><input type="checkbox" name="setting-secure-delete" id="setting-secure-delete" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/><label for="setting-secure-delete" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label></div></div>
+                </div>
+                <div class="p-4 sm:p-6 bg-zinc-200/50 rounded-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg sm:text-xl font-semibold">Seu Histórico</h2>
+                        <button id="clear-history-btn" class="text-sm text-blue-600 hover:underline transition-transform active:scale-95">Limpar Tudo</button>
+                    </div>
+                    <ul id="history-list" class="space-y-3"></ul>
+                    <div id="history-toggle-container" class="mt-4 text-center"></div>
+                </div>
+            </div>
+        </section>
+
+        <div id="confirm-clear-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white modal-fade-in">
+                <div class="mt-3 text-center">
+                    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                        <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </div>
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">Limpar Histórico</h3>
+                    <div class="mt-2 px-7 py-3">
+                        <p class="text-sm text-gray-500">
+                            Você tem certeza que deseja apagar todo o seu histórico de buscas? Esta ação não pode ser desfeita.
+                        </p>
+                    </div>
+                    <div class="items-center px-4 py-3">
+                        <button id="cancel-clear-btn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md w-full sm:w-auto hover:bg-gray-300 mb-2 sm:mb-0 sm:mr-2">Cancelar</button>
+                        <button id="confirm-clear-action-btn" class="px-4 py-2 bg-red-600 text-white rounded-md w-full sm:w-auto hover:bg-red-700">Sim, Limpar Tudo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="text-center p-4 text-sm text-zinc-500 border-t border-zinc-200 mt-auto">
+        © Todos os direitos reservados a <a href="https://www.linkedin.com/in/eduardoandrecampos/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Eduardo André Campos</a>
+    </footer>
+
+    <!-- Links para os arquivos JavaScript externos -->
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/api.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

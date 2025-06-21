@@ -1,0 +1,83 @@
+/* public/css/style.css */
+
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+input:focus { caret-color: #3b82f6; }
+
+.toggle-checkbox:checked {
+    right: 0;
+    border-color: #3b82f6;
+}
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #3b82f6;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal-fade-in, .result-card {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+.device-name:hover {
+    color: #2563eb; 
+}
+.duplicates-container, #search-button svg, .expand-button svg {
+    transition: all 0.3s ease-in-out;
+}
+#search-button:hover svg {
+    transform: scale(1.1);
+}
+.animated-gradient-text {
+    background: linear-gradient(90deg, #3b82f6, #6366f1, #ec4899, #f97316);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-animation 5s ease infinite;
+}
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.details-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+}
+.details-content.expanded {
+    max-height: 500px; /* Um valor alto o suficiente para a maioria dos conteúdos */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.active-view {
+    display: block !important;
+}
+.hidden-view {
+    display: none !important;
+}
+/* Estilos para o mini-menu de busca externa */
+.external-search-menu {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    z-index: 50;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    animation: fadeIn 0.2s ease-out;
+}
+.external-search-menu button {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+}
+.external-search-menu button:hover {
+    background-color: #f1f5f9;
+}
